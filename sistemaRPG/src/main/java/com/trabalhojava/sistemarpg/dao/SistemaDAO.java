@@ -8,5 +8,6 @@ public interface SistemaDAO {
     void insere(Sistema var1) throws SQLException;
     void atualizar(Sistema var1) throws SQLException;
     void remover(Sistema var1) throws SQLException;
+    Sistema buscaPorCodigo(int sistemaId) throws SQLException;
     List<Sistema> listar() throws SQLException;
 }

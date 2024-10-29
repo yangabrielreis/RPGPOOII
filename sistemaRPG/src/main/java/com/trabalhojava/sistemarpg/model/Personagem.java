@@ -118,17 +118,18 @@ public class Personagem {
         this.carisma = carisma;
     }
 
+    @Override
     public String toString(){
-        return "Personagem {personagemId=" + this.personagemId +
-                ", nome=" + this.nome +
-                ", descricao=" + this.descricao +
-                ", urlImg=" + this.urlImg +
-                ", nivel=" + this.nivel +
-                ", força=" + this.forca +
-                ", destreza=" + this.destreza +
-                ", constituição=" + this.constituicao +
-                ", inteligência" + this.inteligencia +
-                ", sabedoria" + this.sabedoria +
-                ", carisma" + this.carisma + "}";
+        return "Personagem {personagemId=" + personagemId +
+                ", nome=" + nome +
+                ", descricao=" + descricao +
+                ", urlImg=" + urlImg +
+                ", nivel=" + nivel +
+                ", força=" + forca +
+                ", destreza=" + destreza +
+                ", constituição=" + constituicao +
+                ", inteligência" + inteligencia +
+                ", sabedoria" + sabedoria +
+                ", carisma" + carisma + "}";
     }
 }

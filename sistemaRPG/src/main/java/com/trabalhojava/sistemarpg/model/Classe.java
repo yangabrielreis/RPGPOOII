@@ -7,19 +7,19 @@ public class Classe {
     private int hpInicial;
     private int hpNivel;
     private int nivelMax;
-    private int sistemaId;
+    private Sistema sistema;
 
     public Classe() {}
 
     public Classe(int classeId, String nomeClasse, String descricao, int hpInicial,
-                  int hpNivel, int nivelMax, int sistemaId) {
+                  int hpNivel, int nivelMax, Sistema sistema) {
         this.classeId = classeId;
         this.nomeClasse = nomeClasse;
         this.descricao = descricao;
         this.hpInicial = hpInicial;
         this.hpNivel = hpNivel;
         this.nivelMax = nivelMax;
-        this.sistemaId = sistemaId;
+        this.sistema = sistema;
     }
 
     public int getClasseId() {
@@ -46,8 +46,8 @@ public class Classe {
         return nivelMax;
     }
 
-    public int getSistemaId() {
-        return sistemaId;
+    public Sistema getSistema() {
+        return sistema;
     }
 
     public void setClasseId(int classeId) {
@@ -74,10 +74,11 @@ public class Classe {
         this.nivelMax = nivelMax;
     }
 
-    public void setSistemaId(int sistemaId) {
-        this.sistemaId = sistemaId;
+    public void setSistema(Sistema sistema) {
+        this.sistema = sistema;
     }
 
+    @Override
     public String toString() {
         return "Classe {classeId=" + classeId +
                 ", nomeClasse=" + nomeClasse +
@@ -85,6 +86,6 @@ public class Classe {
                 ", hpInicial=" + hpInicial +
                 ", hpNivel=" + hpNivel +
                 ", nivelMax=" + nivelMax +
-                ", sistemaId=" + sistemaId + "}";
+                ", sistemaId=" + sistema.getSistemaId() + "}";
     }
 }

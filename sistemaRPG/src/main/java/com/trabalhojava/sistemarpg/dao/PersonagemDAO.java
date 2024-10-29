@@ -8,5 +8,6 @@ public interface PersonagemDAO {
     void insere(Personagem var1) throws SQLException;
     void atualizar(Personagem var1) throws SQLException;
     void remover(Personagem var1) throws SQLException;
+    Personagem buscaPorCodigo(int personagemId) throws SQLException;
     List<Personagem> listar() throws SQLException;
 }

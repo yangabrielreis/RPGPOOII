@@ -10,13 +10,13 @@ public class Raca {
     private int inteligencia;
     private int sabedoria;
     private int carisma;
-    private int sistemaId;
+    private Sistema sistema;
 
     public Raca() {
     }
 
     public Raca(int racaId, String nomeRaca, String descricao, int forca, int destreza, int constituicao,
-                int inteligencia, int sabedoria, int carisma, int sistemaId) {
+                int inteligencia, int sabedoria, int carisma, Sistema sistema) {
         this.racaId = racaId;
         this.nomeRaca = nomeRaca;
         this.descricao = descricao;
@@ -26,7 +26,7 @@ public class Raca {
         this.inteligencia = inteligencia;
         this.sabedoria = sabedoria;
         this.carisma = carisma;
-        this.sistemaId = sistemaId;
+        this.sistema = sistema;
     }
 
     public int getRacaId() {
@@ -65,8 +65,8 @@ public class Raca {
         return carisma;
     }
 
-    public int getSistemaId() {
-        return sistemaId;
+    public Sistema getSistema() {
+        return sistema;
     }
 
     public void setRacaId(int racaId) {
@@ -105,10 +105,11 @@ public class Raca {
         this.carisma = carisma;
     }
 
-    public void setSistemaId(int sistemaId) {
-        this.sistemaId = sistemaId;
+    public void setSistema(Sistema sistema) {
+        this.sistema = sistema;
     }
 
+    @Override
     public String toString() {
         return "Raça {racaid = " + racaId +
                 ", nomeRaca = " + nomeRaca +
@@ -119,7 +120,7 @@ public class Raca {
                 ", inteligencia = " + inteligencia +
                 ", sabedoria = " + sabedoria +
                 ", carisma = " + carisma +
-                ", sistemaId = " + sistemaId + "}";
+                ", sistemaId = " + sistema.getSistemaId() + "}";
     }
 }
 

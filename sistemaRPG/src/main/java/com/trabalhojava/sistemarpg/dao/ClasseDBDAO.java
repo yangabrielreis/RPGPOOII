@@ -19,70 +19,94 @@ public class ClasseDBDAO implements ClasseDAO, IConst{
     public ClasseDBDAO() {}
 
     private void open() throws SQLException {
-        this.connection = Conexao.getConexao("jdbc:postgresql://localhost:5432/sistemarpg", "postgres", "postgres");
+        connection = Conexao.getConexao("jdbc:postgresql://localhost:5432/sistemarpg", "postgres", "postgres");
     }
 
     private void close() throws SQLException {
-        this.connection.close();
+        connection.close();
     }
     public void insere(Classe classe) throws SQLException {
-        this.open();
-        this.sql = "INSERT INTO classe(classeId, nomeClasse, descricao, hpInicial, hpNivel, nivelMax, sistemaId) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        this.statement = this.connection.prepareStatement(this.sql);
-        this.statement.setInt(1,classe.getClasseId());
-        this.statement.setString(2,classe.getNomeClasse());
-        this.statement.setString(3,classe.getDescricao());
-        this.statement.setInt(4,classe.getHpInicial());
-        this.statement.setInt(5,classe.getHpNivel());
-        this.statement.setInt(6,classe.getNivelMax());
-        this.statement.setInt(7,classe.getSistemaId());
-        this.statement.executeUpdate();
-        this.close();
+        open();
+        sql = "INSERT INTO classe(classeId, nomeClasse, descricao, hpInicial, hpNivel, nivelMax, sistemaId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,classe.getClasseId());
+        statement.setString(2,classe.getNomeClasse());
+        statement.setString(3,classe.getDescricao());
+        statement.setInt(4,classe.getHpInicial());
+        statement.setInt(5,classe.getHpNivel());
+        statement.setInt(6,classe.getNivelMax());
+        statement.setInt(7,classe.getSistema().getSistemaId());
+        statement.executeUpdate();
+        close();
     }
 
     public void atualizar(Classe classe) throws SQLException {
-        this.open();
-        this.sql = "UPDATE classe SET nomeClasse=?, descricao=?, hpInicial=?, hpNivel=?, nivelMax=?, sistemaId=? WHERE classeId=?";
-        this.statement = this.connection.prepareStatement(this.sql);
-        this.statement.setString(1, classe.getNomeClasse());
-        this.statement.setString(2, classe.getDescricao());
-        this.statement.setInt(3, classe.getHpInicial());
-        this.statement.setInt(4, classe.getHpNivel());
-        this.statement.setInt(5, classe.getNivelMax());
-        this.statement.setInt(6, classe.getSistemaId());
-        this.statement.setInt(7, classe.getClasseId());
-        this.statement.executeUpdate();
-        this.close();
+        open();
+        sql = "UPDATE classe SET nomeClasse=?, descricao=?, hpInicial=?, hpNivel=?, nivelMax=?, sistemaId=? WHERE classeId=?";
+        statement = connection.prepareStatement(sql);
+        statement.setString(1, classe.getNomeClasse());
+        statement.setString(2, classe.getDescricao());
+        statement.setInt(3, classe.getHpInicial());
+        statement.setInt(4, classe.getHpNivel());
+        statement.setInt(5, classe.getNivelMax());
+        statement.setInt(6, classe.getSistema().getSistemaId());
+        statement.setInt(7, classe.getClasseId());
+        statement.executeUpdate();
+        close();
     }
 
     public void remover(Classe classe) throws SQLException {
-        this.open();
-        this.sql = "DELETE FROM classe WHERE classeId=?";
-        this.statement = connection.prepareStatement(sql);
-        this.statement.setInt(1,classe.getClasseId());
-        this.statement.executeUpdate();
-        this.close();
+        open();
+        sql = "DELETE FROM classe WHERE classeId=?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,classe.getClasseId());
+        statement.executeUpdate();
+        close();
+    }
+
+    public Classe buscaPorCodigo(int classeId) throws SQLException {
+        open();
+        sql = "SELECT * FROM classe WHERE classeId=?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1, classeId);
+        result = statement.executeQuery();
+        SistemaDBDAO sistemaDB = new SistemaDBDAO();
+        if (result.next()) {
+            Classe classe = new Classe();
+            classe.setClasseId(result.getInt("classeId"));
+            classe.setNomeClasse(result.getString("nomeClasse"));
+            classe.setDescricao(result.getString("descricao"));
+            classe.setHpInicial(result.getInt("hpInicial"));
+            classe.setHpNivel(result.getInt("hpNivel"));
+            classe.setNivelMax(result.getInt("nivelMax"));
+            close();
+            return classe;
+        }
+        else {
+            close();
+            return null;
+        }
     }
 
     public List<Classe> listar() throws SQLException {
-        this.open();
-        this.sql = "SELECT * FROM classe";
-        this.statement = this.connection.prepareStatement(this.sql);
-        this.result = this.statement.executeQuery();
+        open();
+        sql = "SELECT * FROM classe";
+        statement = connection.prepareStatement(sql);
+        result = statement.executeQuery();
         ArrayList<Classe> classes = new ArrayList<>();
-
-        while (this.result.next()) {
+        SistemaDBDAO sistemaDB = new SistemaDBDAO();
+        while (result.next()) {
             Classe classe = new Classe();
-            classe.setClasseId(this.result.getInt("classeId"));
-            classe.setNomeClasse(this.result.getString("nomeClasse"));
-            classe.setDescricao(this.result.getString("descricao"));
-            classe.setHpInicial(this.result.getInt("hpInicial"));
-            classe.setHpNivel(this.result.getInt("hpNivel"));
-            classe.setNivelMax(this.result.getInt("nivelMax"));
-            classe.setSistemaId(this.result.getInt("sistemaId"));
+            classe.setClasseId(result.getInt("classeId"));
+            classe.setNomeClasse(result.getString("nomeClasse"));
+            classe.setDescricao(result.getString("descricao"));
+            classe.setHpInicial(result.getInt("hpInicial"));
+            classe.setHpNivel(result.getInt("hpNivel"));
+            classe.setNivelMax(result.getInt("nivelMax"));
+            classe.setSistema(sistemaDB.buscaPorCodigo(result.getInt("sistemaId")));
             classes.add(classe);
         }
-        this.close();
+        close();
         return classes;
     }
 }
