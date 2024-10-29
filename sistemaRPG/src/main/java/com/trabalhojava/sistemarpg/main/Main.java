@@ -1,12 +1,12 @@
 package com.trabalhojava.sistemarpg.main;
 
 import java.sql.SQLException;
-import com.trabalhojava.sistemarpg.dao.PersonagemDAO;
-import com.trabalhojava.sistemarpg.dao.PersonagemDBDAO;
+
+import com.trabalhojava.sistemarpg.dao.*;
 import com.trabalhojava.sistemarpg.model.Personagem;
-import com.trabalhojava.sistemarpg.dao.SistemaDAO;
-import com.trabalhojava.sistemarpg.dao.SistemaDBDAO;
 import com.trabalhojava.sistemarpg.model.Sistema;
+import com.trabalhojava.sistemarpg.model.Raca;
+import com.trabalhojava.sistemarpg.model.Classe;
 
 public class Main {
     public static void main(String[] args) throws SQLException{
@@ -37,5 +37,33 @@ public class Main {
         System.out.println(sistemaDAO.listar());
         System.out.println("REMOVE SISTEMA");
         sistemaDAO.remover(sistema2);
+
+        Raca raca1 = new Raca(1,"Gobli", "Goblin moments", 0, 0, 1, 2, 0, -1, 1);
+        Raca raca2 = new Raca(2,"Humano", "human buxa", 1, 1, 1, 1, 1, 1, 1);
+        RacaDBDAO racaDAO = new RacaDBDAO();
+        System.out.println("INSERE RAÇAS");
+        racaDAO.insere(raca1);
+        racaDAO.insere(raca2);
+        Raca raca3 = new Raca(1,"Goblin", "Goblin moments", 0, 0, 1, 2, 0, -1, 1);
+        System.out.println("ATUALIZA RAÇAS");
+        racaDAO.atualizar(raca3);
+        System.out.println("LISTA RAÇAS");
+        System.out.println(racaDAO.listar());
+        System.out.println("REMOVE SISTEMA");
+        racaDAO.remover(raca2);
+
+        Classe classe1 = new Classe(1,"Invento","Inventor Moments", 12,3,20,1);
+        Classe classe2 = new Classe(2,"Gurerreiro", "Guerreiro Buxa", 20, 5, 20, 1);
+        ClasseDBDAO classeDAO = new ClasseDBDAO();
+        System.out.println("INSERE CLASSES");
+        classeDAO.insere(classe1);
+        classeDAO.insere(classe2);
+        Classe classe3 = new Classe(1,"Inventor","Inventor Moments", 12,3,20,1);
+        System.out.println("ATUALIZA CLASSES");
+        classeDAO.atualizar(classe3);
+        System.out.println("LISTA CLASSES");
+        System.out.println(classeDAO.listar());
+        System.out.println("REMOVE CLASSES");
+        classeDAO.remover(classe2);
     }
 }
