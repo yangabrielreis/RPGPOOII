@@ -63,7 +63,7 @@ public class RacaDBDAO implements RacaDAO, IConst {
 
     public void remover(Raca raca) throws SQLException {
         this.open();
-        this.sql = "DELETE FROM raca WHERE id=?";
+        this.sql = "DELETE FROM raca WHERE racaId=?";
         this.statement = connection.prepareStatement(sql);
         this.statement.setInt(1,raca.getRacaId());
         this.statement.executeUpdate();
