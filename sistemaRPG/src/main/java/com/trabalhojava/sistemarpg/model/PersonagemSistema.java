@@ -1,10 +1,10 @@
 package com.trabalhojava.sistemarpg.model;
 
 public class PersonagemSistema {
-    private int personagemId;
-    private int sistemaId;
-    private int racaId;
-    private int classeId;
+    private Personagem personagem;
+    private Sistema sistema;
+    private Raca raca;
+    private Classe classe;
     private int hp;
     private int nivel;
     private int forca;
@@ -16,36 +16,51 @@ public class PersonagemSistema {
 
     public PersonagemSistema() {}
 
-    public PersonagemSistema(int personagemId, int sistemaId, int racaId, int classeId, int hp, int nivel,
-                             int forca, int destreza, int constituicao, int inteligencia, int sabedoria, int carisma) {
-        this.personagemId = personagemId;
-        this.sistemaId = sistemaId;
-        this.racaId = racaId;
-        this.classeId = classeId;
-        this.hp = hp;
-        this.nivel = nivel;
-        this.forca = forca;
-        this.destreza = destreza;
-        this.constituicao = constituicao;
-        this.inteligencia = inteligencia;
-        this.sabedoria = sabedoria;
-        this.carisma = carisma;
+    public PersonagemSistema(Personagem personagem, Sistema sistema, Raca raca, Classe classe) {
+        this.personagem = personagem;
+        this.sistema = sistema;
+        this.raca = raca;
+        this.classe = classe;
+        this.nivel = validarNivel(personagem.getNivel(), classe.getNivelMax());
+        this.forca = validarAtributo(personagem.getForca(), raca.getForca());
+        this.destreza = validarAtributo(personagem.getDestreza(), raca.getDestreza());
+        this.constituicao = validarAtributo(personagem.getConstituicao(), raca.getConstituicao());
+        this.inteligencia = validarAtributo(personagem.getInteligencia(), raca.getInteligencia());
+        this.sabedoria = validarAtributo(personagem.getSabedoria(), raca.getSabedoria());
+        this.carisma = validarAtributo(personagem.getCarisma(), raca.getCarisma());
+        this.hp = validarHp(classe.getHpInicial(), classe.getHpNivel(), personagem.getNivel(), this.constituicao);
     }
 
-    public int getSistemaId() {
-        return sistemaId;
+    private int validarNivel(int nDesejado, int nMax) {
+        if(nDesejado > nMax)
+        {
+            nDesejado = nMax;
+        }
+        return nDesejado;
     }
 
-    public int getClasseId() {
-        return classeId;
+    private int validarAtributo(int aPersonagem, int aRaca) {
+        return aPersonagem + aRaca;
     }
 
-    public int getRacaId() {
-        return racaId;
+    private int validarHp(int hpClasseInicial, int hpClasse, int nivel, int constituicao) {
+        return (hpClasseInicial + constituicao) + ((hpClasse + constituicao) * (nivel - 1));
     }
 
-    public int getPersonagemId() {
-        return personagemId;
+    public Sistema getSistema() {
+        return sistema;
+    }
+
+    public Classe getClasse() {
+        return classe;
+    }
+
+    public Raca getRaca() {
+        return raca;
+    }
+
+    public Personagem getPersonagem() {
+        return personagem;
     }
 
     public int getHp() {
@@ -80,20 +95,20 @@ public class PersonagemSistema {
         return carisma;
     }
 
-    public void setSistemaId(int sistemaId) {
-        this.sistemaId = sistemaId;
+    public void setSistema(Sistema sistema) {
+        this.sistema = sistema;
     }
 
-    public void setPersonagemId(int personagemId) {
-        this.personagemId = personagemId;
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
     }
 
-    public void setRacaId(int racaId) {
-        this.racaId = racaId;
+    public void setRaca(Raca raca) {
+        this.raca = raca;
     }
 
-    public void setClasseId(int classeId) {
-        this.classeId = classeId;
+    public void setClasse(Classe classe) {
+        this.classe = classe;
     }
 
     public void setHp(int hp) {
@@ -129,10 +144,10 @@ public class PersonagemSistema {
     }
 
     public String toString() {
-        return "Personagem_Sistema {personagemId=" + personagemId +
-                ", sistemaId = " + sistemaId +
-                ", racaid = " + racaId +
-                ", classeId = " + classeId +
+        return "Personagem_Sistema {personagemId=" + personagem.getPersonagemId() +
+                ", sistemaId = " + sistema.getSistemaId() +
+                ", racaid = " + raca.getRacaId() +
+                ", classeId = " + classe.getClasseId() +
                 ", hp = " + hp +
                 ", nivel = " + nivel +
                 ", forca = " + forca +

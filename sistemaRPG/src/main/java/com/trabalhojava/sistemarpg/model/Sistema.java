@@ -27,8 +27,9 @@ public class Sistema {
         this.sistemaId = sistemaId;
     }
 
+    @Override
     public String toString() {
-        return "Sistema { Sistema Id: " + this.sistemaId +
-                ", Nome: " + this.nome + "}";
+        return "Sistema { Sistema Id: " + sistemaId +
+                ", Nome: " + nome + "}";
     }
 }

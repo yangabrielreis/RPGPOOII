@@ -8,5 +8,6 @@ public interface ClasseDAO  {
     void insere(Classe var1) throws SQLException;
     void atualizar(Classe var1) throws SQLException;
     void remover(Classe var1) throws SQLException;
+    Classe buscaPorCodigo(int classeId) throws SQLException;
     List<Classe> listar() throws SQLException;
 }

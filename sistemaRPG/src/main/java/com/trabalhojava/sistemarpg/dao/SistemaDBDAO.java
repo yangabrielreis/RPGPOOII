@@ -18,56 +18,75 @@ public class SistemaDBDAO implements SistemaDAO, IConst {
     public SistemaDBDAO() {}
 
     public void open() throws SQLException {
-        this.connection = Conexao.getConexao("jdbc:postgresql://localhost:5432/sistemarpg", "postgres", "postgres");
+        connection = Conexao.getConexao("jdbc:postgresql://localhost:5432/sistemarpg", "postgres", "postgres");
     }
 
     private void close() throws SQLException {
-        this.connection.close();
+        connection.close();
     }
 
     public void insere(Sistema sistema) throws SQLException {
-        this.open();
-        this.sql = "INSERT INTO sistema(sistemaId,nome) VALUES (?, ?)";
-        this.statement = this.connection.prepareStatement(this.sql);
-        this.statement.setInt(1, sistema.getSistemaId());
-        this.statement.setString(2, sistema.getNome());
-        this.statement.executeUpdate();
-        this.close();
+        open();
+        sql = "INSERT INTO sistema(sistemaId,nome) VALUES (?, ?)";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1, sistema.getSistemaId());
+        statement.setString(2, sistema.getNome());
+        statement.executeUpdate();
+        close();
     }
 
     public void atualizar(Sistema sistema) throws SQLException {
-        this.open();
-        this.sql = "UPDATE sistema SET nome=? WHERE sistemaId=?";
-        this.statement = connection.prepareStatement(sql);
-        this.statement.setString(1, sistema.getNome());
-        this.statement.setInt(2, sistema.getSistemaId());
-        this.statement.executeUpdate();
-        this.close();
+        open();
+        sql = "UPDATE sistema SET nome=? WHERE sistemaId=?";
+        statement = connection.prepareStatement(sql);
+        statement.setString(1, sistema.getNome());
+        statement.setInt(2, sistema.getSistemaId());
+        statement.executeUpdate();
+        close();
     }
 
     public void remover(Sistema sistema) throws SQLException {
-        this.open();
-        this.sql = "DELETE FROM sistema WHERE sistemaId=?";
-        this.statement = this.connection.prepareStatement(this.sql);
-        this.statement.setInt(1,sistema.getSistemaId());
-        this.statement.executeUpdate();
-        this.close();
+        open();
+        sql = "DELETE FROM sistema WHERE sistemaId=?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,sistema.getSistemaId());
+        statement.executeUpdate();
+        close();
+    }
+
+    public Sistema buscaPorCodigo(int sistemaId) throws SQLException {
+        open();
+        sql = "SELECT * FROM sistema WHERE sistemaId=?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1, sistemaId);
+        result = statement.executeQuery();
+        if (result.next()) {
+            Sistema sistema = new Sistema();
+            sistema.setSistemaId(result.getInt("sistemaId"));
+            sistema.setNome(result.getString("nome"));
+            close();
+            return sistema;
+        }
+        else {
+            close();
+            return null;
+        }
     }
 
     public List<Sistema> listar() throws SQLException {
-        this.open();
-        this.sql = "SELECT * FROM sistema";
-        this.statement = this.connection.prepareStatement(this.sql);
-        this.result = this.statement.executeQuery();
+        open();
+        sql = "SELECT * FROM sistema";
+        statement = connection.prepareStatement(sql);
+        result = statement.executeQuery();
         ArrayList<Sistema> sistemas = new ArrayList<>();
 
-        while (this.result.next()) {
+        while (result.next()) {
             Sistema sistema = new Sistema();
-            sistema.setSistemaId(this.result.getInt("sistemaId"));
-            sistema.setNome(this.result.getString("nome"));
+            sistema.setSistemaId(result.getInt("sistemaId"));
+            sistema.setNome(result.getString("nome"));
             sistemas.add(sistema);
         }
-        this.close();
+        close();
         return sistemas;
     }
 }

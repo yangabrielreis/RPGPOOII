@@ -8,5 +8,6 @@ public interface RacaDAO {
     void insere(Raca var1) throws SQLException;
     void atualizar(Raca var1) throws SQLException;
     void remover(Raca var1) throws SQLException;
+    Raca buscarPorCodigo(int racaId) throws SQLException;
     List<Raca> listar() throws SQLException;
 }
