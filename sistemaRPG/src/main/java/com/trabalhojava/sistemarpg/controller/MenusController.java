@@ -180,10 +180,10 @@ public class MenusController extends Application {
         grid.add(campoForca, 1, 1);
         grid.add(new Label("Destreza:"), 0, 2);
         grid.add(campoDestreza, 1, 2);
-        grid.add(new Label("Inteligência:"), 0, 3);
-        grid.add(campoInteligencia, 1, 3);
         grid.add(new Label("Constituição:"), 0, 4);
         grid.add(campoConstituicao, 1, 4);
+        grid.add(new Label("Inteligência:"), 0, 3);
+        grid.add(campoInteligencia, 1, 3);
         grid.add(new Label("Sabedoria:"), 0, 5);
         grid.add(campoSabedoria, 1, 5);
         grid.add(new Label("Carisma:"), 0, 6);
@@ -261,7 +261,6 @@ public class MenusController extends Application {
         int destreza;
         int constituicao;
         int inteligencia;
-        //int agilidade;
         int sabedoria;
         int carisma;
 
@@ -281,8 +280,8 @@ public class MenusController extends Application {
 
         @Override
         public String toString() {
-            return String.format("Nome: %s | Classe: %s | Raça: %s | Força: %d | Destreza: %d | Inteligência: %d | Constituição: %d | Sabedoria: %d | Carisma: %d",
-                    nome, classe, raca, forca, destreza, inteligencia, constituicao, sabedoria, carisma);
+            return String.format("Nome: %s \n Classe: %s \n Raça: %s \n Força: %d \n Destreza: %d \n Constituição: %d \n Inteligência: %d \n Sabedoria: %d \n Carisma: %d\n\n",
+                    nome, classe, raca, forca, destreza, constituicao, inteligencia, sabedoria, carisma);
         }
     }
 }
