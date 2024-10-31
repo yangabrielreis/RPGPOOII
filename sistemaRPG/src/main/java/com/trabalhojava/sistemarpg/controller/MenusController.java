@@ -10,6 +10,10 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+import java.sql.SQLException;
+
+import com.trabalhojava.sistemarpg.dao.PersonagemDBDAO;
+import com.trabalhojava.sistemarpg.model.Personagem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +56,7 @@ public class MenusController extends Application {
 
         btnAdicionar.setOnAction(e -> exibirTelaDefinirCaracteristicas());
         btnVer.setOnAction(e -> exibirTelaVerPersonagens());
-        btnEditar.setOnAction(e -> exibirTelaEditarPersonagens());
+        //btnEditar.setOnAction(e -> exibirTelaEditarPersonagens());
 
         barraTopo.getChildren().addAll(btnAdicionar, btnVer, btnEditar);
         root.setTop(barraTopo);
@@ -78,9 +82,9 @@ public class MenusController extends Application {
         alerta.setHeaderText(null);
         alerta.setContentText(mensagem);
         alerta.showAndWait();
-    }
+        }
 
-    private void exibirTelaDefinirCaracteristicas() {
+        private void exibirTelaDefinirCaracteristicas() {
         Stage stageCaracteristicas = new Stage();
         stageCaracteristicas.setTitle("Definir Características");
 
@@ -95,6 +99,7 @@ public class MenusController extends Application {
         titulo.setStyle("-fx-text-fill: black;");
         GridPane.setColumnSpan(titulo, 2);
 
+        TextField campoPersonagemId = new TextField();
         ComboBox<String> campoClasse = new ComboBox<>();  
         ComboBox<String> campoRaca = new ComboBox<>();
         campoRaca.getItems().addAll("Humano", "Elfo", "Anão", "Orc"); 
@@ -108,28 +113,37 @@ public class MenusController extends Application {
         btnProximo.setFont(Font.font("Arial", 16));
         btnProximo.setTextFill(Color.WHITE);
         btnProximo.setStyle("-fx-background-color: #2980b9;");
-        btnProximo.setOnAction(e -> exibirTelaDefinirAtributos(campoNome.getText(), campoClasse.getValue(), campoRaca.getValue(), campoInfo.getText(), campoImagem.getText(), stageCaracteristicas));
-
-        grid.add(titulo, 0, 0);
-        grid.add(new Label("Nome:"), 0, 1);
-        grid.add(campoNome, 1, 1);
-        grid.add(new Label("Classe:"), 0, 2);
-        grid.add(campoClasse, 1, 2);
-        grid.add(new Label("Raça:"), 0, 3);
-        grid.add(campoRaca, 1, 3);
-        grid.add(new Label("Descrição':"), 0, 4);
-        grid.add(campoInfo, 1, 4);
-        grid.add(new Label("Caminho da Imagem:"), 0, 5);
-        grid.add(campoImagem, 1, 5);
-        grid.add(btnProximo, 1, 6);
+        btnProximo.setOnAction(e -> exibirTelaDefinirAtributos(
+            Integer.parseInt(campoPersonagemId.getText()), 
+            campoNome.getText(), 
+            campoClasse.getValue(), 
+            campoRaca.getValue(), 
+            campoInfo.getText(), 
+            campoImagem.getText(), 
+            stageCaracteristicas
+        ));
         
-
-        Scene cena = new Scene(grid, 400, 300);
+        grid.add(titulo, 0, 0);
+        grid.add(new Label("ID do Personagem:"), 0, 1);
+        grid.add(campoPersonagemId, 1, 1);
+        grid.add(new Label("Nome:"), 0, 2);
+        grid.add(campoNome, 1, 2);
+        grid.add(new Label("Classe:"), 0, 3);
+        grid.add(campoClasse, 1, 3);
+        grid.add(new Label("Raça:"), 0, 4);
+        grid.add(campoRaca, 1, 4);
+        grid.add(new Label("Descrição:"), 0, 5);
+        grid.add(campoInfo, 1, 5);
+        grid.add(new Label("Caminho da Imagem:"), 0, 6);
+        grid.add(campoImagem, 1, 6);
+        grid.add(btnProximo, 1, 7);
+        
+        Scene cena = new Scene(grid, 400, 350);
         stageCaracteristicas.setScene(cena);
         stageCaracteristicas.show();
-    }
+        }
 
-    private void exibirTelaDefinirAtributos(String nome, String classe, String raca, String info, String caminhoImagem, Stage telaAnterior) {
+        private void exibirTelaDefinirAtributos(int personagemId, String nome, String classe, String raca, String info, String caminhoImagem, Stage telaAnterior) {
         telaAnterior.close();
         Stage stageAtributos = new Stage();
         stageAtributos.setTitle("Definir Atributos");
@@ -163,10 +177,17 @@ public class MenusController extends Application {
                     throw new IllegalArgumentException("Todos os campos de atributos devem ser preenchidos.");
                 }
         
-                Personagem personagem = new Personagem(nome, classe, raca, info, caminhoImagem,
+                Personagem personagem = new Personagem(personagemId, nome, info, caminhoImagem, 1,
                         Integer.parseInt(campoForca.getText()), Integer.parseInt(campoDestreza.getText()),
                         Integer.parseInt(campoInteligencia.getText()), Integer.parseInt(campoConstituicao.getText()), Integer.parseInt(campoSabedoria.getText()), Integer.parseInt(campoCarisma.getText()));
                 personagens.add(personagem);
+                PersonagemDBDAO personagemDB = new PersonagemDBDAO();
+                try {
+                    personagemDB.insere(personagem);
+                    personagemDB.listar();
+                } catch (SQLException ex) {
+                    exibirAlerta("Erro de Banco de Dados", "Erro ao salvar personagem no banco de dados.");
+                }
                 stageAtributos.close();
             } catch (NumberFormatException ex) {
                 exibirAlerta("Erro de Formato", "Os atributos devem ser números inteiros.");
@@ -223,7 +244,7 @@ public class MenusController extends Application {
         stageVisualizar.show();
     }
 
-    private void exibirTelaEditarPersonagens() {
+    /*private void exibirTelaEditarPersonagens() {
         Stage stageEditar = new Stage();
         stageEditar.setTitle("Editar Personagens");
 
@@ -260,8 +281,8 @@ public class MenusController extends Application {
                 ComboBox<String> campoRaca = new ComboBox<>();
                 campoRaca.getItems().addAll("Humano", "Elfo", "Anão", "Orc");
                 campoClasse.getItems().addAll("Guerreiro", "Mago", "Arqueiro", "Ladino");
-                campoRaca.setValue(personagem.raca);
-                campoClasse.setValue(personagem.classe);
+                //campoRaca.setValue(personagem.raca);
+                //campoClasse.setValue(personagem.classe);
                 TextField campoInfo = new TextField(personagem.info);
                 TextField campoImagem = new TextField(personagem.caminhoImagem);
                 TextField campoForca = new TextField(String.valueOf(personagem.forca));
@@ -332,14 +353,16 @@ public class MenusController extends Application {
         Scene cena = new Scene(vbox, 400, 300);
         stageEditar.setScene(cena);
         stageEditar.show();
-    }
+    }*/
 
+    /*
     class Personagem {
         String nome;
         String classe;
         String raca;
         String info;
         String caminhoImagem;
+        int nivel;
         int forca;
         int destreza;
         int constituicao;
@@ -347,7 +370,7 @@ public class MenusController extends Application {
         int sabedoria;
         int carisma;
 
-        Personagem(String nome, String classe, String raca, String info, String caminhoImagem, int forca, int destreza, int inteligencia, int constituicao, int sabedoria, int carisma) {
+        Personagem(String nome, String classe, String raca, String info, String caminhoImagem, int nivel, int forca, int destreza, int inteligencia, int constituicao, int sabedoria, int carisma) {
             this.nome = nome;
             this.classe = classe;
             this.raca = raca;
@@ -412,4 +435,5 @@ public class MenusController extends Application {
                     nome, classe, raca, forca, destreza, constituicao, inteligencia, sabedoria, carisma);
         }
     }
+        */
 }
