@@ -239,7 +239,89 @@ public class MenusController extends Application {
 
             Button btnEditar = new Button("Editar");
             btnEditar.setOnAction(e -> {
+                Stage stageEditarPersonagem = new Stage();
+                stageEditarPersonagem.setTitle("Editar Personagem");
 
+                GridPane grid = new GridPane();
+                grid.setPadding(new Insets(20));
+                grid.setHgap(10);
+                grid.setVgap(10);
+                grid.setStyle("-fx-background-color: #D3D3D3;");
+
+                Label titulo = new Label("Editar Personagem");
+                titulo.setFont(Font.font("Arial", 18));
+                titulo.setStyle("-fx-text-fill: black;");
+                GridPane.setColumnSpan(titulo, 2);
+
+                TextField campoNome = new TextField(personagem.nome);
+                //TextField campoClasse = new TextField(personagem.classe);
+                //TextField campoRaca = new TextField(personagem.raca);
+                ComboBox<String> campoClasse = new ComboBox<>();
+                ComboBox<String> campoRaca = new ComboBox<>();
+                campoRaca.getItems().addAll("Humano", "Elfo", "Anão", "Orc");
+                campoClasse.getItems().addAll("Guerreiro", "Mago", "Arqueiro", "Ladino");
+                campoRaca.setValue(personagem.raca);
+                campoClasse.setValue(personagem.classe);
+                TextField campoInfo = new TextField(personagem.info);
+                TextField campoImagem = new TextField(personagem.caminhoImagem);
+                TextField campoForca = new TextField(String.valueOf(personagem.forca));
+                TextField campoDestreza = new TextField(String.valueOf(personagem.destreza));
+                TextField campoInteligencia = new TextField(String.valueOf(personagem.inteligencia));
+                TextField campoConstituicao = new TextField(String.valueOf(personagem.constituicao));
+                TextField campoSabedoria = new TextField(String.valueOf(personagem.sabedoria));
+                TextField campoCarisma = new TextField(String.valueOf(personagem.carisma));
+
+                Button btnSalvar = new Button("Salvar Alterações");
+                btnSalvar.setFont(Font.font("Arial", 16));
+                btnSalvar.setTextFill(Color.WHITE);
+                btnSalvar.setStyle("-fx-background-color: #27ae60;");
+                btnSalvar.setOnAction(ev -> {
+                    try {
+                        personagem.setNome(campoNome.getText());
+                        personagem.setClasse(campoClasse.getValue());
+                        personagem.setRaca(campoRaca.getValue());
+                        personagem.setInfo(campoInfo.getText());
+                        personagem.setCaminhoImagem(campoImagem.getText());
+                        personagem.setForca(Integer.parseInt(campoForca.getText()));
+                        personagem.setDestreza(Integer.parseInt(campoDestreza.getText()));
+                        personagem.setInteligencia(Integer.parseInt(campoInteligencia.getText()));
+                        personagem.setConstituicao(Integer.parseInt(campoConstituicao.getText()));
+                        personagem.setSabedoria(Integer.parseInt(campoSabedoria.getText()));
+                        personagem.setCarisma(Integer.parseInt(campoCarisma.getText()));
+                        stageEditarPersonagem.close();
+                    } catch (NumberFormatException ex) {
+                        exibirAlerta("Erro de Formato", "Os atributos devem ser números inteiros.");
+                    }
+                });
+
+                grid.add(titulo, 0, 0);
+                grid.add(new Label("Nome:"), 0, 1);
+                grid.add(campoNome, 1, 1);
+                grid.add(new Label("Classe:"), 0, 2);
+                grid.add(campoClasse, 1, 2);
+                grid.add(new Label("Raça:"), 0, 3);
+                grid.add(campoRaca, 1, 3);
+                grid.add(new Label("Descrição:"), 0, 4);
+                grid.add(campoInfo, 1, 4);
+                grid.add(new Label("Caminho da Imagem:"), 0, 5);
+                grid.add(campoImagem, 1, 5);
+                grid.add(new Label("Força:"), 0, 6);
+                grid.add(campoForca, 1, 6);
+                grid.add(new Label("Destreza:"), 0, 7);
+                grid.add(campoDestreza, 1, 7);
+                grid.add(new Label("Inteligência:"), 0, 8);
+                grid.add(campoInteligencia, 1, 8);
+                grid.add(new Label("Constituição:"), 0, 9);
+                grid.add(campoConstituicao, 1, 9);
+                grid.add(new Label("Sabedoria:"), 0, 10);
+                grid.add(campoSabedoria, 1, 10);
+                grid.add(new Label("Carisma:"), 0, 11);
+                grid.add(campoCarisma, 1, 11);
+                grid.add(btnSalvar, 1, 12);
+
+                Scene cena = new Scene(grid, 400, 500);
+                stageEditarPersonagem.setScene(cena);
+                stageEditarPersonagem.show();
             });
 
             HBox linha = new HBox(10, personagemLabel, btnEditar);
@@ -276,6 +358,51 @@ public class MenusController extends Application {
             this.inteligencia = inteligencia;
             this.constituicao = constituicao;
             this.sabedoria = sabedoria;
+            this.carisma = carisma;
+
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public void setClasse(String classe) {
+            this.classe = classe;
+        }
+
+        public void setRaca(String raca) {
+            this.raca = raca;
+        }
+
+        public void setInfo(String info) {
+            this.info = info;
+        }
+
+        public void setCaminhoImagem(String caminhoImagem) {
+            this.caminhoImagem = caminhoImagem;
+        }
+
+        public void setForca(int forca) {
+            this.forca = forca;
+        }
+
+        public void setDestreza(int destreza) {
+            this.destreza = destreza;
+        }
+
+        public void setInteligencia(int inteligencia) {
+            this.inteligencia = inteligencia;
+        }
+
+        public void setConstituicao(int constituicao) {
+            this.constituicao = constituicao;
+        }
+
+        public void setSabedoria(int sabedoria) {
+            this.sabedoria = sabedoria;
+        }
+
+        public void setCarisma(int carisma) {
             this.carisma = carisma;
         }
 
