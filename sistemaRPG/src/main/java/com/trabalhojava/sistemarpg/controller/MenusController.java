@@ -147,8 +147,8 @@ public class MenusController extends Application {
 
         TextField campoForca = new TextField();
         TextField campoDestreza = new TextField();
-        TextField campoInteligencia = new TextField();
         TextField campoConstituicao = new TextField();
+        TextField campoInteligencia = new TextField();
         TextField campoSabedoria = new TextField();
         TextField campoCarisma = new TextField();
 
@@ -180,10 +180,10 @@ public class MenusController extends Application {
         grid.add(campoForca, 1, 1);
         grid.add(new Label("Destreza:"), 0, 2);
         grid.add(campoDestreza, 1, 2);
-        grid.add(new Label("Constituição:"), 0, 4);
-        grid.add(campoConstituicao, 1, 4);
-        grid.add(new Label("Inteligência:"), 0, 3);
-        grid.add(campoInteligencia, 1, 3);
+        grid.add(new Label("Constituição:"), 0, 3);
+        grid.add(campoConstituicao, 1, 3);
+        grid.add(new Label("Inteligência:"), 0, 4);
+        grid.add(campoInteligencia, 1, 4);
         grid.add(new Label("Sabedoria:"), 0, 5);
         grid.add(campoSabedoria, 1, 5);
         grid.add(new Label("Carisma:"), 0, 6);
@@ -289,6 +289,7 @@ public class MenusController extends Application {
                         personagem.setSabedoria(Integer.parseInt(campoSabedoria.getText()));
                         personagem.setCarisma(Integer.parseInt(campoCarisma.getText()));
                         stageEditarPersonagem.close();
+                        stageEditar.close();
                     } catch (NumberFormatException ex) {
                         exibirAlerta("Erro de Formato", "Os atributos devem ser números inteiros.");
                     }
@@ -309,10 +310,10 @@ public class MenusController extends Application {
                 grid.add(campoForca, 1, 6);
                 grid.add(new Label("Destreza:"), 0, 7);
                 grid.add(campoDestreza, 1, 7);
-                grid.add(new Label("Inteligência:"), 0, 8);
-                grid.add(campoInteligencia, 1, 8);
-                grid.add(new Label("Constituição:"), 0, 9);
-                grid.add(campoConstituicao, 1, 9);
+                grid.add(new Label("Constituição:"), 0, 8);
+                grid.add(campoConstituicao, 1, 8);
+                grid.add(new Label("Inteligência:"), 0, 9);
+                grid.add(campoInteligencia, 1, 9);
                 grid.add(new Label("Sabedoria:"), 0, 10);
                 grid.add(campoSabedoria, 1, 10);
                 grid.add(new Label("Carisma:"), 0, 11);
