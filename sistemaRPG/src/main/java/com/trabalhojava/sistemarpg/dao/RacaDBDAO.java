@@ -1,7 +1,7 @@
 package com.trabalhojava.sistemarpg.dao;
 
 import com.trabalhojava.sistemarpg.model.Raca;
-import com.trabalhojava.sistemarpg.model.Sistema;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -77,7 +77,7 @@ public class RacaDBDAO implements RacaDAO, IConst {
         statement = connection.prepareStatement(sql);
         statement.setInt(1, racaId);
         result = statement.executeQuery();
-        SistemaDBDAO sistemaDB = new SistemaDBDAO();
+        
         if (result.next()) {
             Raca raca = new Raca();
             raca.setRacaId(result.getInt("racaId"));

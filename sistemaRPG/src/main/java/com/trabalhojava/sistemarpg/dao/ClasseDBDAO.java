@@ -1,7 +1,7 @@
 package com.trabalhojava.sistemarpg.dao;
 
 import com.trabalhojava.sistemarpg.model.Classe;
-import com.trabalhojava.sistemarpg.model.Raca;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -70,7 +70,7 @@ public class ClasseDBDAO implements ClasseDAO, IConst{
         statement = connection.prepareStatement(sql);
         statement.setInt(1, classeId);
         result = statement.executeQuery();
-        SistemaDBDAO sistemaDB = new SistemaDBDAO();
+        
         if (result.next()) {
             Classe classe = new Classe();
             classe.setClasseId(result.getInt("classeId"));

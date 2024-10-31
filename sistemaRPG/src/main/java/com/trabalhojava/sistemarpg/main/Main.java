@@ -2,8 +2,16 @@ package com.trabalhojava.sistemarpg.main;
 
 import java.sql.SQLException;
 
-import com.trabalhojava.sistemarpg.dao.*;
-import com.trabalhojava.sistemarpg.model.*;
+import com.trabalhojava.sistemarpg.dao.PersonagemDBDAO;
+import com.trabalhojava.sistemarpg.dao.SistemaDBDAO;
+import com.trabalhojava.sistemarpg.dao.RacaDBDAO;
+import com.trabalhojava.sistemarpg.dao.ClasseDBDAO;
+import com.trabalhojava.sistemarpg.dao.PersonagemSistemaDBDAO;
+import com.trabalhojava.sistemarpg.model.Personagem;
+import com.trabalhojava.sistemarpg.model.Sistema;
+import com.trabalhojava.sistemarpg.model.Raca;
+import com.trabalhojava.sistemarpg.model.Classe;
+import com.trabalhojava.sistemarpg.model.PersonagemSistema;
 
 public class Main {
     public static void main(String[] args) throws SQLException{
