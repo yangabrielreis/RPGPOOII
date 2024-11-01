@@ -98,6 +98,34 @@ public class RacaDBDAO implements RacaDAO, IConst {
         }
     }
 
+        public Raca buscaPorNome(String nomeRaca) throws SQLException {
+            open();
+            sql = "SELECT * FROM raca WHERE nomeRaca LIKE ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, "%" + nomeRaca + "%");
+            result = statement.executeQuery();
+            
+            if (result.next()) {
+                Raca raca = new Raca();
+                raca.setRacaId(result.getInt("racaId"));
+                raca.setNomeRaca(result.getString("nomeRaca"));
+                raca.setDescricao(result.getString("descricao"));
+                raca.setForca(result.getInt("forca"));
+                raca.setDestreza(result.getInt("destreza"));
+                raca.setConstituicao(result.getInt("constituicao"));
+                raca.setInteligencia(result.getInt("inteligencia"));
+                raca.setSabedoria(result.getInt("sabedoria"));
+                raca.setCarisma(result.getInt("carisma"));
+                raca.setSistema(new SistemaDBDAO().buscaPorCodigo(result.getInt("sistemaId")));
+                close();
+                return raca;
+            } else {
+                close();
+                return null;
+            }
+        }
+       
+
     public List<Raca> listar() throws SQLException {
         open();
         sql = "SELECT * FROM raca";

@@ -88,6 +88,31 @@ public class ClasseDBDAO implements ClasseDAO, IConst{
         }
     }
 
+    
+    public Classe buscaPorNome(String nomeClasse) throws SQLException {
+        open();
+        sql = "SELECT * FROM classe WHERE nomeClasse = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setString(1, nomeClasse);
+        result = statement.executeQuery();
+        
+        if (result.next()) {
+            Classe classe = new Classe();
+            classe.setClasseId(result.getInt("classeId"));
+            classe.setNomeClasse(result.getString("nomeClasse"));
+            classe.setDescricao(result.getString("descricao"));
+            classe.setHpInicial(result.getInt("hpInicial"));
+            classe.setHpNivel(result.getInt("hpNivel"));
+            classe.setNivelMax(result.getInt("nivelMax"));
+            SistemaDBDAO sistemaDB = new SistemaDBDAO();
+            classe.setSistema(sistemaDB.buscaPorCodigo(result.getInt("sistemaId")));
+            close();
+            return classe;
+        } else {
+            close();
+            return null;
+        }
+    }
     public List<Classe> listar() throws SQLException {
         open();
         sql = "SELECT * FROM classe";

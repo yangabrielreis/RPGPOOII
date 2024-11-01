@@ -12,8 +12,16 @@ import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
 import java.sql.SQLException;
 
+import com.trabalhojava.sistemarpg.dao.ClasseDBDAO;
 import com.trabalhojava.sistemarpg.dao.PersonagemDBDAO;
+import com.trabalhojava.sistemarpg.dao.PersonagemSistemaDBDAO;
 import com.trabalhojava.sistemarpg.model.Personagem;
+import com.trabalhojava.sistemarpg.model.PersonagemSistema;
+import com.trabalhojava.sistemarpg.model.Classe;
+import com.trabalhojava.sistemarpg.model.Raca;
+import com.trabalhojava.sistemarpg.model.Sistema;
+import com.trabalhojava.sistemarpg.dao.RacaDBDAO;
+import com.trabalhojava.sistemarpg.dao.SistemaDBDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,8 +190,37 @@ public class MenusController extends Application {
                         Integer.parseInt(campoInteligencia.getText()), Integer.parseInt(campoConstituicao.getText()), Integer.parseInt(campoSabedoria.getText()), Integer.parseInt(campoCarisma.getText()));
                 personagens.add(personagem);
                 PersonagemDBDAO personagemDB = new PersonagemDBDAO();
+                SistemaDBDAO sistemaDB = new SistemaDBDAO();
+                Sistema sistema;
+                try {
+                    sistema = sistemaDB.buscaPorCodigo(1);
+                } catch (SQLException ex) {
+                    exibirAlerta("Erro de Banco de Dados", "Erro ao buscar classe no banco de dados.");
+                    return;
+                }
+                ClasseDBDAO classeDB = new ClasseDBDAO();
+                Classe classet;
+                try {
+                    classet = classeDB.buscaPorNome(classe);
+                } catch (SQLException ex) {
+                    exibirAlerta("Erro de Banco de Dados", "Erro ao buscar classe no banco de dados.");
+                    return;
+                }
+
+                RacaDBDAO racaDB = new RacaDBDAO();
+                Raca racat;
+                try {
+                    racat = racaDB.buscaPorNome(raca);
+                } catch (SQLException ex) {
+                    exibirAlerta("Erro de Banco de Dados", "Erro ao buscar raça no banco de dados.");
+                    return;
+                }
+                PersonagemSistemaDBDAO personagemSistemaDB = new PersonagemSistemaDBDAO();
+                PersonagemSistema personagemSistema = new PersonagemSistema(personagem, sistema, racat, classet);
+
                 try {
                     personagemDB.insere(personagem);
+                    personagemSistemaDB.insere(personagemSistema);
                     personagemDB.listar();
                 } catch (SQLException ex) {
                     exibirAlerta("Erro de Banco de Dados", "Erro ao salvar personagem no banco de dados.");
